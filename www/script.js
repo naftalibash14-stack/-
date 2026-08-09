@@ -1,3 +1,7 @@
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('service-worker.js');
+}
+
 const introScreen = document.getElementById('introScreen');
 const redScreen = document.getElementById('redScreen');
 const blueScreen = document.getElementById('blueScreen');
