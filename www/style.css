@@ -179,7 +179,8 @@ body {
 }
 
 .fold {
-    position: absolute;
+    position: relative; /* לוודא שהטקסט ממוקם יחסית למשולש */
+    overflow: hidden;
     width: 76px;
     height: 76px;
     border: none;
@@ -214,6 +215,18 @@ body {
     top: 0;
     left: 0;
     transform: scaleX(-1);
+}
+
+.fold-text {
+  position: absolute;
+  top: 10px;
+  right: 2px;
+  font-size: 0.7rem;
+  font-weight: bold;
+  color: #333333;
+  transform: rotate(45deg); /* מסובב את הטקסט בזווית המשולש */
+  white-space: nowrap;
+  pointer-events: none; /* מונע בעיות בבלחיצה על הקישור */
 }
 
 .screen-link {
