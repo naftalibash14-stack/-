@@ -150,3 +150,24 @@ screenLinks.forEach(link => {
 });
 
 updateBubbleActions();
+document.addEventListener('DOMContentLoaded', () => {
+  // 1. תופס את כל הבועות לפי השם bubble-item
+  const bubbles = document.querySelectorAll('.bubble-item');
+
+  bubbles.forEach((bubble, index) => {
+    // מפתח ייחודי לכל בועה לפי העמוד והמיקום שלה
+    const storageKey = `${window.location.pathname}_bubble_${index}`;
+
+    // א. טעינת הטקסט השמור כשנכנסים לדף
+    const savedText = localStorage.getItem(storageKey);
+    if (savedText !== null) {
+      bubble.innerText = savedText;
+    }
+
+    // ב. שמירה אוטומטית בכל פעם שהם מקלידים בתוך הבועה
+    bubble.addEventListener('input', () => {
+      localStorage.setItem(storageKey, bubble.innerText);
+    });
+  });
+});
+
