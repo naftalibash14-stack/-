@@ -121,7 +121,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 12px;
-    margin-top: 60px; /* מוריד את הבועה הראשונה מתחת למשולש ומתחת לכפתור למעלה */
+    margin-top: 140px; /* מוריד את הבועה הראשונה מתחת למשולש ומתחת לכפתור למעלה */
     margin-bottom: 15px;
 }
 
