@@ -179,8 +179,8 @@ body {
 }
 
 .fold {
-    position: relative; /* לוודא שהטקסט ממוקם יחסית למשולש */
-    overflow: hidden;
+    position: absolute; 
+    overflow: visible !important;
     width: 76px;
     height: 76px;
     border: none;
@@ -218,15 +218,16 @@ body {
 }
 
 .fold-text {
-  position: absolute;
-  top: 10px;
-  right: 2px;
-  font-size: 0.7rem;
+position: absolute;
+  top: 15px;         /* מיקום אנכי */
+  right: 65px;        /* מזיז אותו שמאלה, ממש לרווח ליד המשולש */
+  font-size: 1rem;    /* גודל גופן גדול וברור */
   font-weight: bold;
-  color: #333333;
-  transform: rotate(45deg); /* מסובב את הטקסט בזווית המשולש */
+  color: #ffffff;     /* צבע טקסט לבן שבלוט על הרקע */
+  text-shadow: 0px 1px 3px rgba(0, 0, 0, 0.4); /* צל קל להבלטה */
   white-space: nowrap;
-  pointer-events: none; /* מונע בעיות בבלחיצה על הקישור */
+  pointer-events: none;
+  transform: none;
 }
 
 .screen-link {
