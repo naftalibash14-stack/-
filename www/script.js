@@ -217,3 +217,62 @@ window.addEventListener('load', () => {
     console.log('Storage note:', err);
   }
 });
+
+
+
+// --- התראת התקנת אפליקציה (PWA) ---
+let deferredPrompt;
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  showInstallBanner();
+});
+
+function showInstallBanner() {
+  if (localStorage.getItem('pwaPromptClosed') === 'true') return;
+
+  const banner = document.createElement('div');
+  banner.id = 'pwa-install-banner';
+  banner.style.cssText = `
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+    background: #ffffff;
+    color: #222222;
+    padding: 16px;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+    z-index: 10000;
+    text-align: center;
+    direction: rtl;
+    font-family: sans-serif;
+  `;
+
+  banner.innerHTML = `
+    <div style="font-weight: bold; font-size: 1.05rem; margin-bottom: 6px;">להורדת האפליקציה למכשיר</div>
+    <div style="font-size: 0.88rem; color: #666; margin-bottom: 12px;">תוכל להתקין אותה ישירות במסך הבית לגישה מהירה</div>
+    <div style="display: flex; gap: 8px; justify-content: center;">
+      <button id="pwa-install-btn" style="background: #000000; color: #ffffff; border: none; padding: 10px 18px; border-radius: 8px; font-weight: bold; cursor: pointer;">התקן עכשיו</button>
+      <button id="pwa-close-btn" style="background: #f0f0f0; color: #555555; border: none; padding: 10px 14px; border-radius: 8px; cursor: pointer;">לא עכשיו</button>
+    </div>
+  `;
+
+  document.body.appendChild(banner);
+
+  document.getElementById('pwa-install-btn').addEventListener('click', () => {
+    banner.remove();
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then(() => {
+        deferredPrompt = null;
+      });
+    }
+  });
+
+  document.getElementById('pwa-close-btn').addEventListener('click', () => {
+    banner.remove();
+    localStorage.setItem('pwaPromptClosed', 'true');
+  });
+}
