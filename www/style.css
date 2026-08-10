@@ -394,3 +394,30 @@ body {
         left: 12px;
     }
 }
+
+/* עיצוב הפוטר בתחתית הדף */
+.site-footer {
+  width: 100%;
+  margin-top: 40px;
+  padding-bottom: 20px;
+  text-align: center;
+  direction: rtl;
+}
+
+/* קו חוצץ עדין */
+.footer-divider {
+  width: 80%;
+  max-width: 400px;
+  height: 1px;
+  background-color: rgba(255, 255, 255, 0.25); /* קו חצי-שקוף ועדין */
+  margin: 0 auto 12px auto;
+}
+
+/* הטקסט של הקרדיט */
+.site-footer p {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.7); /* צבע רך שלא יבלוט מדי */
+  margin: 0;
+  font-family: sans-serif;
+}
+
