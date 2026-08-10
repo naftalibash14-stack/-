@@ -218,16 +218,17 @@ body {
 }
 
 .fold-text {
-position: absolute;
-  top: 15px;         /* מיקום אנכי */
-  right: 65px;        /* מזיז אותו שמאלה, ממש לרווח ליד המשולש */
-  font-size: 1rem;    /* גודל גופן גדול וברור */
+.fold-text {
+  position: absolute;
+  top: 75px;            /* מוריד את הטקסט למטה, מתחת למשולש */
+  right: 5px;           /* מיישר אותו קרוב לקצה הימני תחת המשולש */
+  font-size: 0.95rem;   /* גודל קריא וברור */
   font-weight: bold;
-  color: #ffffff;     /* צבע טקסט לבן שבלוט על הרקע */
-  text-shadow: 0px 1px 3px rgba(0, 0, 0, 0.4); /* צל קל להבלטה */
+  color: #ffffff;
   white-space: nowrap;
   pointer-events: none;
-  transform: none;
+  text-shadow: 0px 1px 3px rgba(0, 0, 0, 0.4);
+}
 }
 
 .screen-link {
