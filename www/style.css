@@ -1,29 +1,16 @@
-* {
-    box-sizing: border-box;
-}
-
 html, body {
     margin: 0;
     padding: 0;
-    height: 100%;
+    min-height: 100%;
     width: 100vw;
-    overflow: hidden; /* מונע גלילה לחלוטין */
     direction: rtl;
-}
-
-body {
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    background: #0d1728;
-    color: #f8fafc;
-    -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
+    /* מוחקים את overflow: hidden כדי שלא ינעל את המסך! */
 }
 
 .app-shell {
     position: relative;
     width: 100vw;
-    height: 100vh;
-    overflow: hidden;
+    min-height: 100vh;
     perspective: 1300px;
 }
 
@@ -31,10 +18,11 @@ body {
     position: absolute;
     inset: 0;
     display: flex;
-    flex-direction: column; /* מסדר את הרכיבים מלמעלה למטה */
+    flex-direction: column;
     align-items: center;
-    justify-content: space-between; /* מפזר בועות למעלה, פוטר למטה */
-    padding: 15px 14px 10px 14px; /* הקטנת פדינג למניעת גלילה */
+    justify-content: space-between; /* שומר את הפוטר בתחתית */
+    padding: 20px 16px;
+    box-sizing: border-box;
     transition: opacity 240ms ease;
     opacity: 0;
     pointer-events: none;
@@ -49,92 +37,26 @@ body {
     pointer-events: auto;
 }
 
-/* אנימציות */
-@keyframes turn-right {
-    0% { transform: rotateY(0deg) scale(1); opacity: 1; }
-    100% { transform: rotateY(-90deg) translateX(-30%) scale(0.95); opacity: 0; }
-}
-
-@keyframes turn-left {
-    0% { transform: rotateY(0deg) scale(1); opacity: 1; }
-    100% { transform: rotateY(90deg) translateX(30%) scale(0.95); opacity: 0; }
-}
-
-@keyframes slide-down {
-    0% { transform: translateY(-120%); opacity: 0; }
-    100% { transform: translateY(0); opacity: 1; }
-}
-
-.screen.turn-right { animation: turn-right 380ms ease forwards; transform-origin: right center; }
-.screen.turn-left { animation: turn-left 380ms ease forwards; transform-origin: left center; }
-.screen.slide-down { animation: slide-down 320ms ease forwards; }
-
-.red-screen { background: linear-gradient(180deg, #ff7a7a 0%, #d84a4a 60%, #a42323 100%); }
-.blue-screen { background: linear-gradient(180deg, #7fa8ff 0%, #356bc5 60%, #1d3b8c 100%); }
-
-.intro-screen {
-    background: radial-gradient(circle at top right, rgba(255, 255, 255, 0.16), transparent 28%),
-                linear-gradient(180deg, #173b6f 0%, #0d1f3a 100%);
-    color: #f8fafc;
-    justify-content: center;
-}
-
-.intro-card {
-    width: min(92vw, 460px);
-    text-align: center;
-    padding: 32px 28px;
-    border-radius: 32px;
-    background: rgba(255, 255, 255, 0.96);
-    border: 1px solid rgba(20, 36, 62, 0.12);
-    box-shadow: 0 32px 80px rgba(0, 0, 0, 0.18);
-}
-
-.intro-card h1 {
-    margin: 0;
-    font-size: clamp(2.4rem, 5vw, 4rem);
-    letter-spacing: 0.06em;
-    color: #0f1d38;
-}
-
-.intro-card p {
-    margin: 18px 0 0;
-    font-size: 1.05rem;
-    line-height: 1.7;
-    color: #243852;
-}
-
-.start-button {
-    margin-top: 28px;
-    border: none;
-    border-radius: 999px;
-    padding: 16px 28px;
-    font-size: 1rem;
-    font-weight: 700;
-    background: linear-gradient(135deg, #ffd05a 0%, #ffb347 100%);
-    color: #0b1422;
-    cursor: pointer;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.18);
-    transition: transform 180ms ease, box-shadow 180ms ease;
-}
-
+/* הגדרת הבועות מחדש */
 .bubble-grid {
     width: 100%;
     max-width: 420px;
     display: flex;
     flex-direction: column;
-    gap: 8px; /* הקטנת המרווח בין הבועות לחיסכון במקום */
-    margin-top: 40px; /* מותיר מקום לכפתור "ספר הבית" למעלה */
+    gap: 12px;
+    margin-top: 50px; /* רווח נקי מהחלק העליון */
+    margin-bottom: 20px;
 }
 
 .bubble {
-    min-height: 48px;
-    padding: 10px 14px;
-    padding-left: 90px; /* מקום לכפתורים */
+    min-height: 52px;
+    padding: 12px 16px;
+    padding-left: 95px; /* שומר על רווח לכפתורים */
     border-radius: 999px;
     background: rgba(255, 255, 255, 0.75);
     color: #111;
-    font-size: 0.95rem;
-    line-height: 1.3;
+    font-size: 1rem;
+    line-height: 1.4;
     outline: none;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
     white-space: pre-wrap;
@@ -143,133 +65,22 @@ body {
     position: relative;
 }
 
-/* משולש קיפול דף */
-.fold {
-    position: absolute; 
-    overflow: visible !important;
-    width: 76px;
-    height: 76px;
-    border: none;
-    background: transparent;
-    cursor: pointer;
-    z-index: 2;
-}
-
-.fold::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: rgba(255, 255, 255, 0.22);
-    clip-path: polygon(0 0, 100% 0, 100% 100%);
-}
-
-.fold::after {
-    content: '';
-    position: absolute;
-    inset: 10px 10px 0 0;
-    background: rgba(255, 255, 255, 0.5);
-    clip-path: polygon(0 0, 100% 0, 0 100%);
-}
-
-.fold-right { top: 0; right: 0; }
-.fold-left { top: 0; left: 0; }
-
-.fold-left::before,
-.fold-left::after {
-    transform: scaleX(-1);
-}
-
-.fold-text {
-    position: absolute;
-    top: 80px;
-    font-size: 0.95rem;
-    font-weight: bold;
-    color: #ffffff;
-    white-space: nowrap;
-    pointer-events: none;
-    text-shadow: 0px 1px 3px rgba(0, 0, 0, 0.4);
-}
-
-.fold-right .fold-text { right: 5px; left: auto; }
-.fold-left .fold-text { left: 5px; right: auto; }
-
-/* Placeholder */
-[contenteditable="true"]:empty:before {
-    content: attr(data-placeholder);
-    color: rgba(0, 0, 0, 0.4);
-    pointer-events: none;
-    display: block;
-}
-
-.screen-link {
-    position: absolute;
-    top: 12px;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 8px 16px;
-    border: none;
-    border-radius: 999px;
-    background: rgba(255, 255, 255, 0.95);
-    color: #0d1728;
-    font-weight: 700;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.16);
-    cursor: pointer;
-    z-index: 3;
-}
-
-.bubble-item {
-    position: relative;
-}
-
-.bubble-actions {
-    position: absolute;
-    left: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    display: flex;
-    gap: 8px;
-    align-items: center;
-    z-index: 2;
-}
-
-.bubble-handle,
-.bubble-delete {
-    width: 30px;
-    height: 30px;
-    border: none;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.85);
-    color: #0d1728;
-    display: grid;
-    place-items: center;
-    cursor: pointer;
-    touch-action: none;
-    user-select: none;
-}
-
-.bubble-handle::before { content: '≡'; font-size: 1rem; }
-.bubble-delete { background: rgba(255, 94, 94, 0.95); color: #fff; }
-
-/* --- עיצוב הפוטר והמחיצה בצורה מתוקנת למרכז המסך --- */
+/* עיצוב פוטר נקי ומשוחרר */
 .site-footer {
     width: 100%;
-    margin: 0 auto;
-    padding: 8px 0 4px 0;
+    margin-top: auto; /* דוחף את הפוטר לתחתית המסך */
+    padding: 15px 0 10px 0;
     text-align: center;
     direction: rtl;
     box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
 }
 
 .footer-divider {
     width: 80%;
-    max-width: 320px;
+    max-width: 300px;
     height: 1px;
-    background-color: rgba(255, 255, 255, 0.3); /* קו לבן עדין */
-    margin: 0 auto 6px auto;
+    background-color: rgba(255, 255, 255, 0.3);
+    margin: 0 auto 8px auto;
 }
 
 .site-footer p {
@@ -278,16 +89,4 @@ body {
     margin: 0;
     padding: 0;
     text-align: center;
-    width: 100%;
-}
-
-@media (max-width: 520px) {
-    .bubble {
-        min-height: 44px;
-        font-size: 0.92rem;
-    }
-    .fold {
-        width: 60px;
-        height: 60px;
-    }
 }
