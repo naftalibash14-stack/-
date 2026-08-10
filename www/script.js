@@ -147,32 +147,40 @@ screenLinks.forEach(link => {
     link.addEventListener('click', () => {
         transitionScreens(redScreen.classList.contains('active') ? redScreen : blueScreen, introScreen, 'down');
     });
+
+
+  
 document.addEventListener('DOMContentLoaded', () => {
-  const bubbles = document.querySelectorAll('.bubble-item');
+  try {
+    const bubbles = document.querySelectorAll('.bubble-item');
 
-  bubbles.forEach((bubble, index) => {
-    // מצא את השדה הפנימי שבו מקלידים
-    const inputField = bubble.querySelector('input, textarea, [contenteditable="true"]') || bubble;
-    
-    // הוספנו v2_ כדי להתעלם מהשמירה הישנה והמקולקלת אצל כל המשתמשים
-    const storageKey = `v2_${window.location.pathname}_bubble_${index}`;
+    if (bubbles && bubbles.length > 0) {
+      bubbles.forEach((bubble, index) => {
+        // מציאת השדה הפנימי
+        const inputField = bubble.querySelector('input, textarea, [contenteditable="true"]') || bubble;
+        const storageKey = `v2_${window.location.pathname}_bubble_${index}`;
 
-    // 1. טעינת הטקסט השמור
-    const savedText = localStorage.getItem(storageKey);
-    if (savedText !== null) {
-      if (inputField.tagName === 'INPUT' || inputField.tagName === 'TEXTAREA') {
-        inputField.value = savedText;
-      } else {
-        inputField.innerText = savedText;
-      }
+        // טעינה
+        const savedText = localStorage.getItem(storageKey);
+        if (savedText !== null) {
+          if (inputField.tagName === 'INPUT' || inputField.tagName === 'TEXTAREA') {
+            inputField.value = savedText;
+          } else {
+            inputField.innerText = savedText;
+          }
+        }
+
+        // שמירה
+        inputField.addEventListener('input', () => {
+          const textToSave = inputField.value !== undefined ? inputField.value : inputField.innerText;
+          localStorage.setItem(storageKey, textToSave);
+        });
+      });
     }
-
-    // 2. שמירת הטקסט
-    inputField.addEventListener('input', () => {
-      const textToSave = inputField.value !== undefined ? inputField.value : inputField.innerText;
-      localStorage.setItem(storageKey, textToSave);
-    });
-  });
+  } catch (error) {
+    console.error("Storage error:", error);
+  }
 });
+
 
 
