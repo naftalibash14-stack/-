@@ -121,9 +121,9 @@ body {
     max-width: 420px;
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    margin-top: 50px;
-    margin-bottom: 20px;
+    gap: 8px;
+    margin-top: 65px;
+    margin-bottom: 15px;
 }
 
 .bubble {
@@ -180,17 +180,17 @@ body {
 
 .fold-text {
     position: absolute;
-    top: 80px;
-    font-size: 0.95rem;
+    top: 50px;
+    font-size: 0.85rem;
     font-weight: bold;
     color: #ffffff;
     white-space: nowrap;
     pointer-events: none;
-    text-shadow: 0px 1px 3px rgba(0, 0, 0, 0.4);
+    text-shadow: 0px 1px 3px rgba(0, 0, 0, 0.5);
 }
 
-.fold-right .fold-text { right: 5px; left: auto; }
-.fold-left .fold-text { left: 5px; right: auto; }
+.fold-right .fold-text { right: 8px; left: auto; }
+.fold-left .fold-text { left: 8px; right: auto; }
 
 [contenteditable="true"]:empty:before {
     content: attr(data-placeholder);
