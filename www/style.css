@@ -206,29 +206,45 @@ body {
     clip-path: polygon(0 0, 100% 0, 0 100%);
 }
 
+/* מיקומים בפינות */
 .fold-right {
-    top: 0;
-    right: 0;
+  top: 0;
+  right: 0;
 }
 
 .fold-left {
-    top: 0;
-    left: 0;
-    transform: scaleX(-1);
+  top: 0;
+  left: 0;
 }
 
-.fold-text {
+/* הופך רק את ציור המשולש במסך הכחול (ולא את הטקסט!) */
+.fold-left::before,
+.fold-left::after {
+  transform: scaleX(-1);
+}
+
+/* העיצוב והמיקום של הטקסט "הפוך דף" */
 .fold-text {
   position: absolute;
-  top: 75px;            /* מוריד את הטקסט למטה, מתחת למשולש */
-  right: 5px;           /* מיישר אותו קרוב לקצה הימני תחת המשולש */
-  font-size: 0.95rem;   /* גודל קריא וברור */
+  top: 80px;            /* מוריד אותו אל מתחת ל-76 פיקסלים של המשולש */
+  font-size: 0.95rem;
   font-weight: bold;
   color: #ffffff;
   white-space: nowrap;
   pointer-events: none;
   text-shadow: 0px 1px 3px rgba(0, 0, 0, 0.4);
 }
+
+/* צד ימין - מסך אדום */
+.fold-right .fold-text {
+  right: 5px;
+  left: auto;
+}
+
+/* צד שמאל - מסך כחול */
+.fold-left .fold-text {
+  left: 5px;
+  right: auto;
 }
 
 .screen-link {
