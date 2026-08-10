@@ -247,6 +247,17 @@ body {
   right: auto;
 }
 
+
+/* מציג את ה"כתוב כאן..." כשהתיבה ריקה */
+[contenteditable="true"]:empty:before {
+  content: attr(data-placeholder);
+  color: rgba(0, 0, 0, 0.4); /* צבע אפרפר עדין */
+  pointer-events: none;
+  display: block;
+}
+
+
+
 .screen-link {
     position: absolute;
     top: 16px;
