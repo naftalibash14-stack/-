@@ -36,10 +36,28 @@ function transitionScreens(fromScreen, toScreen, direction) {
 
 function clearBubbleText(event) {
     const button = event.currentTarget;
-    const bubble = button.closest('.bubble-item')?.querySelector('.bubble');
-    if (!bubble) return;
-    bubble.textContent = '';
-    bubble.focus();
+    const item = button.closest('.bubble-item');
+    if (!item) return;
+
+    const inputField = item.querySelector('input, textarea, [contenteditable="true"]') || item.querySelector('.bubble') || item;
+    
+    // 1. ניקוי הטקסט מהמסך
+    if ('value' in inputField) {
+        inputField.value = '';
+    } else {
+        inputField.innerText = '';
+    }
+
+    // 2. מציאת האינדקס של הבועה ומחיקת הזיכרון מ-localStorage
+    const allBubbles = Array.from(document.querySelectorAll('.bubble-item'));
+    const index = allBubbles.indexOf(item);
+    
+    if (index !== -1) {
+        const storageKey = `v2_${window.location.pathname}_bubble_${index}`;
+        localStorage.removeItem(storageKey);
+    }
+
+    inputField.focus();
 }
 
 function updateBubbleActions() {
