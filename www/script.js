@@ -147,27 +147,32 @@ screenLinks.forEach(link => {
     link.addEventListener('click', () => {
         transitionScreens(redScreen.classList.contains('active') ? redScreen : blueScreen, introScreen, 'down');
     });
-});
-
-updateBubbleActions();
 document.addEventListener('DOMContentLoaded', () => {
-  // 1. תופס את כל הבועות לפי השם bubble-item
   const bubbles = document.querySelectorAll('.bubble-item');
 
   bubbles.forEach((bubble, index) => {
-    // מפתח ייחודי לכל בועה לפי העמוד והמיקום שלה
-    const storageKey = `${window.location.pathname}_bubble_${index}`;
+    // מצא את השדה הפנימי שבו מקלידים
+    const inputField = bubble.querySelector('input, textarea, [contenteditable="true"]') || bubble;
+    
+    // הוספנו v2_ כדי להתעלם מהשמירה הישנה והמקולקלת אצל כל המשתמשים
+    const storageKey = `v2_${window.location.pathname}_bubble_${index}`;
 
-    // א. טעינת הטקסט השמור כשנכנסים לדף
+    // 1. טעינת הטקסט השמור
     const savedText = localStorage.getItem(storageKey);
     if (savedText !== null) {
-      bubble.innerText = savedText;
+      if (inputField.tagName === 'INPUT' || inputField.tagName === 'TEXTAREA') {
+        inputField.value = savedText;
+      } else {
+        inputField.innerText = savedText;
+      }
     }
 
-    // ב. שמירה אוטומטית בכל פעם שהם מקלידים בתוך הבועה
-    bubble.addEventListener('input', () => {
-      localStorage.setItem(storageKey, bubble.innerText);
+    // 2. שמירת הטקסט
+    inputField.addEventListener('input', () => {
+      const textToSave = inputField.value !== undefined ? inputField.value : inputField.innerText;
+      localStorage.setItem(storageKey, textToSave);
     });
   });
 });
+
 
