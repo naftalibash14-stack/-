@@ -160,6 +160,10 @@ body {
 .bubble {
     min-height: 56px;
     padding: 14px 16px;
+    
+    /* מרווח בצד שמאל בשביל הלחצנים (X והזזה) שלא יעלו על הטקסט! */
+    padding-left: 95px; 
+    
     border-radius: 999px;
     background: rgba(255, 255, 255, 0.75);
     color: #111;
@@ -168,9 +172,18 @@ body {
     outline: none;
     box-shadow: 0 18px 40px rgba(0, 0, 0, 0.12);
     caret-color: #111;
+    
+    /* מונע מהטקסט לצאת החוצה ומכריח לשבור שורות למטה */
     white-space: pre-wrap;
+    word-break: break-word;
     overflow-wrap: break-word;
+    
     position: relative;
+}
+
+.bubble:empty::before {
+    content: attr(data-placeholder);
+    color: rgba(17, 17, 17, 0.45);
 }
 
 .bubble:empty::before {
