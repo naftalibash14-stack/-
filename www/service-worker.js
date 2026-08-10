@@ -1,4 +1,4 @@
-const CACHE_NAME = 'app-cache-v3'; // שינינו ל-v2 כדי לרענן את המטמון!
+const CACHE_NAME = 'app-cache-v4'; 
 
 self.addEventListener('install', (e) => {
   e.waitUntil(
