@@ -326,6 +326,15 @@ body {
         height: 64px;
     }
 
+
+.credits {
+  font-size: 0.75rem;       /* גודל גופן קטן ודיסקרטי */
+  color: #888888;          /* צבע אפור עדין (אם הבלוק כהה, תוכל לשנות ל-rgba(255,255,255,0.6)) */
+  margin-top: 15px;        /* רווח קטן מתחת לכפתור התחל */
+  text-align: center;       /* יישור למרכז */
+  font-weight: normal;     /* עובי גופן רגיל/דק */
+}
+
     .bubble-actions {
         left: 12px;
     }
