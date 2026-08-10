@@ -4,7 +4,10 @@
 
 html, body {
     margin: 0;
-    min-height: 100%;
+    padding: 0;
+    height: 100%;
+    width: 100vw;
+    overflow: hidden; /* מונע גלילה לחלוטין */
     direction: rtl;
 }
 
@@ -19,7 +22,7 @@ body {
 .app-shell {
     position: relative;
     width: 100vw;
-    min-height: 100vh;
+    height: 100vh;
     overflow: hidden;
     perspective: 1300px;
 }
@@ -28,9 +31,10 @@ body {
     position: absolute;
     inset: 0;
     display: flex;
+    flex-direction: column; /* מסדר את הרכיבים מלמעלה למטה */
     align-items: center;
-    justify-content: center;
-    padding: 28px 18px;
+    justify-content: space-between; /* מפזר בועות למעלה, פוטר למטה */
+    padding: 15px 14px 10px 14px; /* הקטנת פדינג למניעת גלילה */
     transition: opacity 240ms ease;
     opacity: 0;
     pointer-events: none;
@@ -45,65 +49,34 @@ body {
     pointer-events: auto;
 }
 
+/* אנימציות */
 @keyframes turn-right {
-    0% {
-        transform: rotateY(0deg) scale(1);
-        opacity: 1;
-    }
-    100% {
-        transform: rotateY(-90deg) translateX(-30%) scale(0.95);
-        opacity: 0;
-    }
+    0% { transform: rotateY(0deg) scale(1); opacity: 1; }
+    100% { transform: rotateY(-90deg) translateX(-30%) scale(0.95); opacity: 0; }
 }
 
 @keyframes turn-left {
-    0% {
-        transform: rotateY(0deg) scale(1);
-        opacity: 1;
-    }
-    100% {
-        transform: rotateY(90deg) translateX(30%) scale(0.95);
-        opacity: 0;
-    }
+    0% { transform: rotateY(0deg) scale(1); opacity: 1; }
+    100% { transform: rotateY(90deg) translateX(30%) scale(0.95); opacity: 0; }
 }
 
 @keyframes slide-down {
-    0% {
-        transform: translateY(-120%);
-        opacity: 0;
-    }
-    100% {
-        transform: translateY(0);
-        opacity: 1;
-    }
+    0% { transform: translateY(-120%); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
 }
 
-.screen.turn-right {
-    animation: turn-right 380ms ease forwards;
-    transform-origin: right center;
-}
+.screen.turn-right { animation: turn-right 380ms ease forwards; transform-origin: right center; }
+.screen.turn-left { animation: turn-left 380ms ease forwards; transform-origin: left center; }
+.screen.slide-down { animation: slide-down 320ms ease forwards; }
 
-.screen.turn-left {
-    animation: turn-left 380ms ease forwards;
-    transform-origin: left center;
-}
-
-.screen.slide-down {
-    animation: slide-down 320ms ease forwards;
-}
-
-.red-screen {
-    background: linear-gradient(180deg, #ff7a7a 0%, #d84a4a 60%, #a42323 100%);
-}
-
-.blue-screen {
-    background: linear-gradient(180deg, #7fa8ff 0%, #356bc5 60%, #1d3b8c 100%);
-}
+.red-screen { background: linear-gradient(180deg, #ff7a7a 0%, #d84a4a 60%, #a42323 100%); }
+.blue-screen { background: linear-gradient(180deg, #7fa8ff 0%, #356bc5 60%, #1d3b8c 100%); }
 
 .intro-screen {
     background: radial-gradient(circle at top right, rgba(255, 255, 255, 0.16), transparent 28%),
                 linear-gradient(180deg, #173b6f 0%, #0d1f3a 100%);
     color: #f8fafc;
+    justify-content: center;
 }
 
 .intro-card {
@@ -144,53 +117,33 @@ body {
     transition: transform 180ms ease, box-shadow 180ms ease;
 }
 
-.start-button:hover,
-.start-button:focus-visible {
-    transform: translateY(-2px);
-    box-shadow: 0 22px 44px rgba(0, 0, 0, 0.22);
-}
-
 .bubble-grid {
     width: 100%;
     max-width: 420px;
-    display: grid;
-    gap: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px; /* הקטנת המרווח בין הבועות לחיסכון במקום */
+    margin-top: 40px; /* מותיר מקום לכפתור "ספר הבית" למעלה */
 }
 
 .bubble {
-    min-height: 56px;
-    padding: 14px 16px;
-    
-    /* מרווח בצד שמאל בשביל הלחצנים (X והזזה) שלא יעלו על הטקסט! */
-    padding-left: 95px; 
-    
+    min-height: 48px;
+    padding: 10px 14px;
+    padding-left: 90px; /* מקום לכפתורים */
     border-radius: 999px;
     background: rgba(255, 255, 255, 0.75);
     color: #111;
-    font-size: 1rem;
-    line-height: 1.4;
+    font-size: 0.95rem;
+    line-height: 1.3;
     outline: none;
-    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.12);
-    caret-color: #111;
-    
-    /* מונע מהטקסט לצאת החוצה ומכריח לשבור שורות למטה */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
     white-space: pre-wrap;
     word-break: break-word;
     overflow-wrap: break-word;
-    
     position: relative;
 }
 
-.bubble:empty::before {
-    content: attr(data-placeholder);
-    color: rgba(17, 17, 17, 0.45);
-}
-
-.bubble:empty::before {
-    content: attr(data-placeholder);
-    color: rgba(17, 17, 17, 0.45);
-}
-
+/* משולש קיפול דף */
 .fold {
     position: absolute; 
     overflow: visible !important;
@@ -206,7 +159,6 @@ body {
     content: '';
     position: absolute;
     inset: 0;
-    border-radius: 0 0 0 0;
     background: rgba(255, 255, 255, 0.22);
     clip-path: polygon(0 0, 100% 0, 100% 100%);
 }
@@ -219,77 +171,50 @@ body {
     clip-path: polygon(0 0, 100% 0, 0 100%);
 }
 
-/* מיקומים בפינות */
-.fold-right {
-  top: 0;
-  right: 0;
-}
+.fold-right { top: 0; right: 0; }
+.fold-left { top: 0; left: 0; }
 
-.fold-left {
-  top: 0;
-  left: 0;
-}
-
-/* הופך רק את ציור המשולש במסך הכחול (ולא את הטקסט!) */
 .fold-left::before,
 .fold-left::after {
-  transform: scaleX(-1);
+    transform: scaleX(-1);
 }
 
-/* העיצוב והמיקום של הטקסט "הפוך דף" */
 .fold-text {
-  position: absolute;
-  top: 80px;            /* מוריד אותו אל מתחת ל-76 פיקסלים של המשולש */
-  font-size: 0.95rem;
-  font-weight: bold;
-  color: #ffffff;
-  white-space: nowrap;
-  pointer-events: none;
-  text-shadow: 0px 1px 3px rgba(0, 0, 0, 0.4);
+    position: absolute;
+    top: 80px;
+    font-size: 0.95rem;
+    font-weight: bold;
+    color: #ffffff;
+    white-space: nowrap;
+    pointer-events: none;
+    text-shadow: 0px 1px 3px rgba(0, 0, 0, 0.4);
 }
 
-/* צד ימין - מסך אדום */
-.fold-right .fold-text {
-  right: 5px;
-  left: auto;
-}
+.fold-right .fold-text { right: 5px; left: auto; }
+.fold-left .fold-text { left: 5px; right: auto; }
 
-/* צד שמאל - מסך כחול */
-.fold-left .fold-text {
-  left: 5px;
-  right: auto;
-}
-
-
-/* מציג את ה"כתוב כאן..." כשהתיבה ריקה */
+/* Placeholder */
 [contenteditable="true"]:empty:before {
-  content: attr(data-placeholder);
-  color: rgba(0, 0, 0, 0.4); /* צבע אפרפר עדין */
-  pointer-events: none;
-  display: block;
+    content: attr(data-placeholder);
+    color: rgba(0, 0, 0, 0.4);
+    pointer-events: none;
+    display: block;
 }
-
-
 
 .screen-link {
     position: absolute;
-    top: 16px;
+    top: 12px;
     left: 50%;
     transform: translateX(-50%);
-    padding: 10px 18px;
+    padding: 8px 16px;
     border: none;
     border-radius: 999px;
     background: rgba(255, 255, 255, 0.95);
     color: #0d1728;
     font-weight: 700;
-    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.16);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.16);
     cursor: pointer;
     z-index: 3;
-}
-
-.screen-link:hover,
-.screen-link:focus-visible {
-    transform: translateX(-50%) scale(1.02);
 }
 
 .bubble-item {
@@ -298,126 +223,71 @@ body {
 
 .bubble-actions {
     position: absolute;
-    left: 16px;
+    left: 12px;
     top: 50%;
     transform: translateY(-50%);
     display: flex;
-    gap: 10px;
+    gap: 8px;
     align-items: center;
     z-index: 2;
 }
 
 .bubble-handle,
 .bubble-delete {
-    width: 32px;
-    height: 32px;
+    width: 30px;
+    height: 30px;
     border: none;
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.85);
     color: #0d1728;
-    font-size: 1rem;
-    line-height: 1;
     display: grid;
     place-items: center;
     cursor: pointer;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
-    transition: transform 120ms ease, background-color 120ms ease;
     touch-action: none;
     user-select: none;
 }
 
-.bubble-handle {
-    width: 34px;
-    height: 34px;
-    background: rgba(255, 255, 255, 0.88);
-}
+.bubble-handle::before { content: '≡'; font-size: 1rem; }
+.bubble-delete { background: rgba(255, 94, 94, 0.95); color: #fff; }
 
-.bubble-handle::before {
-    content: '≡';
-    font-size: 1rem;
-    line-height: 1;
-}
-
-.bubble-delete {
-    background: rgba(255, 94, 94, 0.95);
-    color: #fff;
-}
-
-.bubble-handle:hover,
-.bubble-delete:hover,
-.bubble-handle:focus-visible,
-.bubble-delete:focus-visible {
-    transform: scale(1.05);
-}
-
-.bubble-item.dragging {
-    opacity: 0.3;
-}
-
-.bubble-placeholder {
-    border: 2px dashed rgba(255, 255, 255, 0.5);
-    border-radius: 24px;
-    background: rgba(255, 255, 255, 0.08);
+/* --- עיצוב הפוטר והמחיצה בצורה מתוקנת למרכז המסך --- */
+.site-footer {
+    width: 100%;
+    margin: 0 auto;
+    padding: 8px 0 4px 0;
+    text-align: center;
+    direction: rtl;
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
-.bubble-clone {
-    position: fixed;
-    pointer-events: none;
-    z-index: 9999;
-    opacity: 0.95;
-    border-radius: 24px;
-    box-shadow: 0 32px 80px rgba(0, 0, 0, 0.24);
+.footer-divider {
+    width: 80%;
+    max-width: 320px;
+    height: 1px;
+    background-color: rgba(255, 255, 255, 0.3); /* קו לבן עדין */
+    margin: 0 auto 6px auto;
+}
+
+.site-footer p {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.85);
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    width: 100%;
 }
 
 @media (max-width: 520px) {
     .bubble {
-        min-height: 50px;
-        font-size: 0.98rem;
+        min-height: 44px;
+        font-size: 0.92rem;
     }
-
     .fold {
-        width: 64px;
-        height: 64px;
-    }
-
-
-.credits {
-  font-size: 0.75rem;       /* גודל גופן קטן ודיסקרטי */
-  color: #888888;          /* צבע אפור עדין (אם הבלוק כהה, תוכל לשנות ל-rgba(255,255,255,0.6)) */
-  margin-top: 15px;        /* רווח קטן מתחת לכפתור התחל */
-  text-align: center;       /* יישור למרכז */
-  font-weight: normal;     /* עובי גופן רגיל/דק */
-}
-
-    .bubble-actions {
-        left: 12px;
+        width: 60px;
+        height: 60px;
     }
 }
-
-/* עיצוב הפוטר בתחתית הדף */
-.site-footer {
-  width: 100%;
-  margin-top: 40px;
-  padding-bottom: 20px;
-  text-align: center;
-  direction: rtl;
-}
-
-/* קו חוצץ עדין */
-.footer-divider {
-  width: 80%;
-  max-width: 400px;
-  height: 1px;
-  background-color: rgba(255, 255, 255, 0.25); /* קו חצי-שקוף ועדין */
-  margin: 0 auto 12px auto;
-}
-
-/* הטקסט של הקרדיט */
-.site-footer p {
-  font-size: 0.8rem;
-  color: rgba(255, 255, 255, 0.7); /* צבע רך שלא יבלוט מדי */
-  margin: 0;
-  font-family: sans-serif;
-}
-
