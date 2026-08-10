@@ -147,40 +147,37 @@ screenLinks.forEach(link => {
     link.addEventListener('click', () => {
         transitionScreens(redScreen.classList.contains('active') ? redScreen : blueScreen, introScreen, 'down');
     });
-
-
-  
-document.addEventListener('DOMContentLoaded', () => {
-  try {
-    const bubbles = document.querySelectorAll('.bubble-item');
-
-    if (bubbles && bubbles.length > 0) {
-      bubbles.forEach((bubble, index) => {
-        // מציאת השדה הפנימי
-        const inputField = bubble.querySelector('input, textarea, [contenteditable="true"]') || bubble;
-        const storageKey = `v2_${window.location.pathname}_bubble_${index}`;
-
-        // טעינה
-        const savedText = localStorage.getItem(storageKey);
-        if (savedText !== null) {
-          if (inputField.tagName === 'INPUT' || inputField.tagName === 'TEXTAREA') {
-            inputField.value = savedText;
-          } else {
-            inputField.innerText = savedText;
-          }
-        }
-
-        // שמירה
-        inputField.addEventListener('input', () => {
-          const textToSave = inputField.value !== undefined ? inputField.value : inputField.innerText;
-          localStorage.setItem(storageKey, textToSave);
-        });
-      });
-    }
-  } catch (error) {
-    console.error("Storage error:", error);
-  }
 });
 
+updateBubbleActions();
 
 
+
+// --- שמירת טקסט בבועות ---
+window.addEventListener('load', () => {
+  try {
+    const bubbles = document.querySelectorAll('.bubble-item');
+    if (!bubbles || bubbles.length === 0) return;
+
+    bubbles.forEach((bubble, index) => {
+      const inputField = bubble.querySelector('input, textarea, [contenteditable="true"]') || bubble;
+      const storageKey = `v2_${window.location.pathname}_bubble_${index}`;
+
+      const savedText = localStorage.getItem(storageKey);
+      if (savedText !== null) {
+        if ('value' in inputField) {
+          inputField.value = savedText;
+        } else {
+          inputField.innerText = savedText;
+        }
+      }
+
+      inputField.addEventListener('input', () => {
+        const textToSave = 'value' in inputField ? inputField.value : inputField.innerText;
+        localStorage.setItem(storageKey, textToSave);
+      });
+    });
+  } catch (err) {
+    console.log('Storage note:', err);
+  }
+});
