@@ -163,6 +163,7 @@ window.addEventListener('load', () => {
       const inputField = bubble.querySelector('input, textarea, [contenteditable="true"]') || bubble;
       const storageKey = `v2_${window.location.pathname}_bubble_${index}`;
 
+      // 1. טעינת המידע השמור
       const savedText = localStorage.getItem(storageKey);
       if (savedText !== null) {
         if ('value' in inputField) {
@@ -172,9 +173,16 @@ window.addEventListener('load', () => {
         }
       }
 
+      // 2. שמירת המידע בכל שינוי (כולל מחיקה מלאה!)
       inputField.addEventListener('input', () => {
         const textToSave = 'value' in inputField ? inputField.value : inputField.innerText;
-        localStorage.setItem(storageKey, textToSave);
+        
+        // אם התיבה ריקה - מוחקים לגמרי מה-Storage כדי שלא יישאר זבל ישן
+        if (textToSave.trim() === '') {
+          localStorage.removeItem(storageKey);
+        } else {
+          localStorage.setItem(storageKey, textToSave);
+        }
       });
     });
   } catch (err) {
