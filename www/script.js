@@ -161,19 +161,19 @@ window.addEventListener('load', () => {
 
     bubbles.forEach((bubble, index) => {
       const inputField = bubble.querySelector('input, textarea, [contenteditable="true"]') || bubble;
-      // ה-pathname יבדילק אוטומטית בין הדף האדום לדף הכחול!
+      // מפתח ייחודי שמפריד באופן מוחלט בין הדף האדום לדף הכחול
       const storageKey = `v2_${window.location.pathname}_bubble_${index}`;
 
-      // 1. טעינה
+      // טעינת הנתונים השמורים
       const savedText = localStorage.getItem(storageKey);
-      if (savedText !== null && savedText.trim() !== '') {
+      if (savedText && savedText.trim() !== '') {
         if ('value' in inputField) {
           inputField.value = savedText;
         } else {
           inputField.innerText = savedText;
         }
       } else {
-        // אם מוחקים/אין טקסט - מנקים לגמרי כדי שה-placeholder הדיפולטיבי ("כתוב כאן...") יחזור ב-CSS
+        // אם אין מידע שמור - מרוקנים לחלוטין כדי שה-CSS יציג את ה-Placeholder
         if ('value' in inputField) {
           inputField.value = '';
         } else {
@@ -181,14 +181,14 @@ window.addEventListener('load', () => {
         }
       }
 
-      // 2. שמירה ומחיקה בכל הקלדה
+      // שמירה בזמן אמת במידה ויש הקלדה/מחיקה
       inputField.addEventListener('input', () => {
         const textToSave = 'value' in inputField ? inputField.value : inputField.innerText;
         
         if (textToSave.trim() === '') {
           localStorage.removeItem(storageKey);
           if (!('value' in inputField)) {
-            inputField.innerText = ''; // מנקה שאריות תגיות HTML מיותרות
+            inputField.innerText = ''; // ניקוי שאריות רווחים
           }
         } else {
           localStorage.setItem(storageKey, textToSave);
