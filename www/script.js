@@ -147,6 +147,23 @@ function endDrag(event) {
     document.removeEventListener('pointermove', onDragMove);
     document.removeEventListener('pointerup', endDrag);
     dragState = null;
+
+    saveAllBubblesOrder();
+}
+
+function saveAllBubblesOrder() {
+    const bubbles = document.querySelectorAll('.bubble-item');
+    bubbles.forEach((bubble, index) => {
+        const inputField = bubble.querySelector('input, textarea, [contenteditable="true"]') || bubble;
+        const storageKey = `v2_${window.location.pathname}_bubble_${index}`;
+        const textToSave = 'value' in inputField ? inputField.value : inputField.innerText;
+        
+        if (textToSave.trim() === '') {
+            localStorage.removeItem(storageKey);
+        } else {
+            localStorage.setItem(storageKey, textToSave);
+        }
+    });
 }
 
 startButton.addEventListener('click', () => {
@@ -169,8 +186,6 @@ screenLinks.forEach(link => {
 
 updateBubbleActions();
 
-
-
 // --- שמירת טקסט בבועות ---
 window.addEventListener('load', () => {
   try {
@@ -179,7 +194,6 @@ window.addEventListener('load', () => {
 
     bubbles.forEach((bubble, index) => {
       const inputField = bubble.querySelector('input, textarea, [contenteditable="true"]') || bubble;
-      // מפתח ייחודי שמפריד באופן מוחלט בין הדף האדום לדף הכחול
       const storageKey = `v2_${window.location.pathname}_bubble_${index}`;
 
       // טעינת הנתונים השמורים
@@ -191,7 +205,6 @@ window.addEventListener('load', () => {
           inputField.innerText = savedText;
         }
       } else {
-        // אם אין מידע שמור - מרוקנים לחלוטין כדי שה-CSS יציג את ה-Placeholder
         if ('value' in inputField) {
           inputField.value = '';
         } else {
@@ -199,17 +212,21 @@ window.addEventListener('load', () => {
         }
       }
 
-      // שמירה בזמן אמת במידה ויש הקלדה/מחיקה
+      // שמירה בזמן אמת תוך חישוב האינדקס העדכני במסך
       inputField.addEventListener('input', () => {
+        const currentBubbles = Array.from(document.querySelectorAll('.bubble-item'));
+        const currentIndex = currentBubbles.indexOf(bubble);
+        const currentStorageKey = `v2_${window.location.pathname}_bubble_${currentIndex}`;
+        
         const textToSave = 'value' in inputField ? inputField.value : inputField.innerText;
         
         if (textToSave.trim() === '') {
-          localStorage.removeItem(storageKey);
+          localStorage.removeItem(currentStorageKey);
           if (!('value' in inputField)) {
-            inputField.innerText = ''; // ניקוי שאריות רווחים
+            inputField.innerText = '';
           }
         } else {
-          localStorage.setItem(storageKey, textToSave);
+          localStorage.setItem(currentStorageKey, textToSave);
         }
       });
     });
@@ -217,8 +234,6 @@ window.addEventListener('load', () => {
     console.log('Storage note:', err);
   }
 });
-
-
 
 // --- התראת התקנת אפליקציה (PWA) ---
 let deferredPrompt;
