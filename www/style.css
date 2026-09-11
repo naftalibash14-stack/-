@@ -298,3 +298,22 @@ body {
 .bubble-item.dragging {
     opacity: 0;
 }
+
+.intro-card h1 {
+    animation: logo-pop 600ms ease-out;
+}
+
+@keyframes logo-pop {
+    0% { transform: scale(0.5); opacity: 0; }
+    60% { transform: scale(1.08); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.intro-screen.active .intro-card {
+    animation: card-rise 500ms ease-out;
+}
+
+@keyframes card-rise {
+    0% { transform: translateY(30px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+}
