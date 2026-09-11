@@ -1,4 +1,4 @@
-const CACHE_NAME = 'app-cache-v9.9'; // תעלה את הגרסה כאן כל פעם שאתה מעדכן קבצים
+const CACHE_NAME = 'app-cache-v10'; // תעלה את הגרסה כאן כל פעם שאתה מעדכן קבצים
 
 const ASSETS_TO_CACHE = [
   './index.html',
