@@ -46,8 +46,13 @@ self.addEventListener('fetch', (e) => {
         return response;
       })
       .catch(() => {
-        // אם אין חיבור לאינטרנט, ניקח את מה ששמור בקאש
-        return caches.match(e.request);
+        // מחפש בקאש, ואם גם שם אין - מחזיר תגובת Response ריקה או שגיאה תקינה במקום undefined
+        return caches.match(e.request).then((cachedResponse) => {
+          return cachedResponse || new Response('Network error & not in cache', {
+            status: 404,
+            headers: { 'Content-Type': 'text/plain' }
+          });
+        });
       })
   );
 });
